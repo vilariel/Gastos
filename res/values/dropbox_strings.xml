@@ -1,0 +1,16 @@
+
+    <resources>
+        <string name="dropboxLink">Vincular con Dropbox</string>
+        <string name="dropboxUnlink">Desvincular de Dropbox</string>
+        <string name="dropboxMenu">Dropbox</string>
+		<string name="dropboxNewFileMenu">Nuevo Archivo</string>
+		<string name="dropboxNewDirMenu">Nuevo Directorio</string>
+	    <string name="dropboxNameTitle">Nombre</string>
+	    <string name="dropboxNameDialog">Ingresar Nombre</string>
+	    <string name="dropboxDirTitle">Nombre</string>
+	    <string name="dropboxDirDialog">Ingresar Directorio</string>
+	    <string name="dropboxOk">Aceptar</string>
+	    <string name="dropboxCancel">Cancelar</string>
+		<string name="dropboxErrorFileExists">Ya existe un archivo con ese nombre</string>
+		<string name="dropboxErrorDirExists">Ya existe un directorio con ese nombre</string>
+    </resources>

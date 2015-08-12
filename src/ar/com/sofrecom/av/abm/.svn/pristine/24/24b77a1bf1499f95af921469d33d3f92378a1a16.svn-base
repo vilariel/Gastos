@@ -1,0 +1,54 @@
+package ar.com.sofrecom.av.abm;
+
+import android.database.sqlite.SQLiteDatabase;
+import ar.com.sofrecom.av.util.DataXmlImporter;
+import ar.com.sofrecom.av.util.GenLog;
+import ar.com.sofrecom.av.util.GenericException;
+
+public abstract class ABMDbsImportActivity extends ABMDbsActivity {
+
+	private static final String TAG = "ImportDbsActivity";
+
+	protected String getFieldName(int fieldNum) {
+		switch (fieldNum) {
+		case STR_ASK:
+			return "abm_import_ask";
+		case STR_YES:
+			return "abm_yes";
+		case STR_NO:
+			return "abm_no";
+		case STR_DONE:
+			return "abm_import_done";
+		case STR_TITLE:
+			return "abm_import";
+		case STR_PROGRESS:
+			return "abm_import_progress";
+		default:
+			return null;
+		}
+	}
+
+	public void processData(ABMBase abmObject) {
+		ABMDatabaseDataMgr abmObjectDbMgr = (ABMDatabaseDataMgr) abmObject;
+		abmObject.openDatabase(this);
+    	ScriptHelper commandHelper = new ScriptHelper(abmObjectDbMgr.getDatabaseName(), abmObjectDbMgr.getVersionNumber(), ABMDbsImportActivity.this);
+    	SQLiteDatabase database = commandHelper.getWritableDatabase();
+    	DataXmlImporter importer = new DataXmlImporter(database, abmObjectDbMgr.getDatabaseName(), directory, abmObject.getFieldTypes(), abmObjectDbMgr.getFieldNames());
+		try {
+			int qtty = importer.importData();
+			result += "\n" + abmObjectDbMgr.getDatabaseName() + ": " + qtty;
+		} catch (GenericException e) {
+			GenLog.err(TAG, e);
+		}
+	}
+
+	protected String getPrefsOri() {
+		return directory + "/preferences.xml";
+	}
+	
+	protected String getPrefsNew() {
+		String packageName = this.getPackageName();
+		return getDataDir(packageName) + "/shared_prefs/" + packageName + "_preferences.xml";
+	}
+
+}

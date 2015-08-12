@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="enBtnOk">Ok</string>
+    <string name="enBtnCancel">Cancel</string>
+	<string name="enBtnNext">Sig.</string>
+	<string name="enBtnPrev">Ant.</string>
+	<string name="enBtnMore">Más</string>
+	<string name="enBtnClear">Clear</string>
+    <string name="enBtnSave">Save</string>
+    <style name="enTextStyle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:enabled">false</item> 
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+</resources>

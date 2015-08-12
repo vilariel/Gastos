@@ -1,0 +1,318 @@
+package ar.com.sofrecom.av.abm;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import ar.com.sofrecom.av.util.GenLog;
+
+public class ABMTableProvider {
+
+    private static final String TAG = "ABMTableProvider";
+    
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	private String databaseName;
+	private int version;
+	private String[] fieldNames;
+	private int[] fieldTypes;
+	private Context context;
+	private SQLiteDatabase database;
+    private DatabaseHelper databaseHelper;
+    
+	public ABMTableProvider(String name, int version, String[] fieldNames, int[] fieldTypes, Context context) {
+		this.databaseName = name;
+		this.version = version;
+		this.fieldNames = fieldNames;
+		this.fieldTypes = fieldTypes;
+		this.context = context;
+	}
+	
+    /**
+     * This class helps open, create, and upgrade the database file.
+     */
+    private static class DatabaseHelper extends SQLiteOpenHelper {
+    	private String databaseName;
+    	private String[] fieldNames;
+    	private int[] fieldTypes;
+
+    	DatabaseHelper(String name, int version, String[] fieldNames, int[] fieldTypes, Context context) {
+            super(context, name, null, version);
+    		this.databaseName = name;
+    		this.fieldNames = fieldNames;
+    		this.fieldTypes = fieldTypes;
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            String sql = getCreateSQL(databaseName, fieldNames, fieldTypes);
+            db.execSQL(sql);
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            GenLog.warning(TAG, "Upgrading database from version " + oldVersion + " to "
+                    + newVersion + ", which will destroy all old data");
+            db.execSQL("DROP TABLE IF EXISTS " + databaseName);
+            onCreate(db);
+        }
+    }
+    
+    public static String getCreateSQL(String databaseName, String[] fieldNames, int[] fieldTypes) {
+		String sql = "CREATE TABLE " + databaseName + " ("
+				+ "_id INTEGER PRIMARY KEY,";
+		int i = 0;
+		for (String fieldName : fieldNames) {
+			sql += fieldName;
+			switch (fieldTypes[i++]) {
+			case ABMBase.TYPE_STRING:
+			case ABMBase.TYPE_STRING_AUTOCOMPLETE:
+			case ABMBase.TYPE_PASSWORD:
+			case ABMBase.TYPE_MULTIPLE_CHOICE:
+				sql += " TEXT, ";
+				break;
+			case ABMBase.TYPE_DIGITS:
+				// TODO ni idea todavia sql += " TEXT,";
+				break;
+			case ABMBase.TYPE_NUMBER:
+				sql += " REAL, ";
+				break;
+			case ABMBase.TYPE_DATE:
+			case ABMBase.TYPE_DATE_TIME:
+			case ABMBase.TYPE_INTEGER:
+			case ABMBase.TYPE_BOOLEAN:
+			case ABMBase.TYPE_ID_CHOICE:
+				sql += " INTEGER, ";
+				break;
+			}
+		}
+		sql += "CREATED_DATE INTEGER, "
+			+ "MODIFIED_DATE INTEGER, "
+			+ "ACCESSED_DATE INTEGER"
+			+ ");";
+		return sql;
+	}
+
+	public void open() {
+        databaseHelper = new DatabaseHelper(databaseName, version, fieldNames, fieldTypes, context);
+        database = databaseHelper.getWritableDatabase();
+	}
+	
+	public void close() {
+		databaseHelper.close();
+	}
+
+	private ContentValues getContentValues(Object[] objects, boolean isInsert) {
+		ContentValues values = new ContentValues();
+        Long now = Long.valueOf(System.currentTimeMillis());
+        values.put("ACCESSED_DATE", now);
+        values.put("MODIFIED_DATE", now);
+        if (isInsert) {
+        	values.put("CREATED_DATE", now);
+        }
+        int i = 0;
+        for (Object object : objects) {
+			switch (fieldTypes[i]) {
+			case ABMBase.TYPE_STRING:
+			case ABMBase.TYPE_STRING_AUTOCOMPLETE:
+			case ABMBase.TYPE_PASSWORD:
+			case ABMBase.TYPE_MULTIPLE_CHOICE:
+				values.put(fieldNames[i], (String) object);
+				break;
+			case ABMBase.TYPE_DIGITS:
+				// TODO ni idea
+				break;
+			case ABMBase.TYPE_NUMBER:
+				values.put(fieldNames[i], (Float) object);
+				break;
+			case ABMBase.TYPE_DATE:
+			case ABMBase.TYPE_DATE_TIME:
+				values.put(fieldNames[i], new Long(((Calendar) object).getTimeInMillis()));
+				break;
+			case ABMBase.TYPE_INTEGER:
+			case ABMBase.TYPE_BOOLEAN:
+			case ABMBase.TYPE_ID_CHOICE:
+				values.put(fieldNames[i], (Long) object);
+				break;
+			}
+        	i++;
+		}
+        return values;
+	}
+	
+	private void fetchRow(long id, Object[] result) {
+		Cursor cursor = database.query(databaseName, fieldNames, "_id = " + id, null, null, null, null);
+		GregorianCalendar calendar = null;
+		if ((cursor != null) && (cursor.getCount() == 1) && cursor.moveToFirst()) {
+			int i = 0;
+			for (int fieldType : fieldTypes) {
+				switch (fieldType) {
+				case ABMBase.TYPE_STRING:
+				case ABMBase.TYPE_STRING_AUTOCOMPLETE:
+				case ABMBase.TYPE_PASSWORD:
+				case ABMBase.TYPE_MULTIPLE_CHOICE:
+					result[i] = cursor.getString(i);
+					break;
+				case ABMBase.TYPE_DIGITS:
+					// TODO ni idea todavia
+					break;
+				case ABMBase.TYPE_NUMBER:
+					result[i] = cursor.getFloat(i);
+					break;
+				case ABMBase.TYPE_DATE:
+				case ABMBase.TYPE_DATE_TIME:
+					calendar = new GregorianCalendar();
+					calendar.setTimeInMillis(cursor.getLong(i));
+					result[i] = calendar;
+					break;
+				case ABMBase.TYPE_INTEGER:
+				case ABMBase.TYPE_BOOLEAN:
+				case ABMBase.TYPE_ID_CHOICE:
+					result[i] = cursor.getLong(i);
+				}
+				i++;
+			}
+		}
+		cursor.close();
+	}
+	
+	public Object[] getViewValues(long id) {
+		Object[] contents = new Object[fieldNames.length];
+		fetchRow(id, contents);
+//		int i = 0;
+//		for (int fieldType : fieldTypes) {
+//			switch (fieldType) {
+//			case ABMBase.TYPE_DATE:
+//				contents[i] = (dateFormat.format(((GregorianCalendar) contents[i]).getTime()));
+//				break;
+//			default:
+//				contents[i] = contents[i].toString();
+//				break;
+//			}
+//			i++;
+//		}
+		return contents;
+	}
+	
+	public Object[] getEditValues(long id) {
+		Object[] contents = new Object[fieldNames.length];
+		fetchRow(id, contents);
+		return contents;
+	}
+	
+	public void save(long id, Object[] objects) {
+		if (id == -1) {
+			insert(objects);
+		} else {
+			update(id, objects);
+		}
+	}
+	
+	private void insert(Object[] objects) {
+		ContentValues values = getContentValues(objects, true);
+        database.insert(databaseName, null, values);
+	}
+	
+	private void update(long id, Object[] objects) {
+		ContentValues values = getContentValues(objects, false);
+        database.update(databaseName, values, "_id = " + id, null);
+	}
+
+	public void updateAccessTime(long id) {
+		ContentValues values = new ContentValues();
+	    Long now = Long.valueOf(System.currentTimeMillis());
+	    values.put("ACCESSED_DATE", now);
+        database.update(databaseName, values, "_id = " + id, null);
+	}
+	
+	public void delete(long id) {
+        database.delete(databaseName, "_id = " + id, null);		
+	}
+	
+	public Cursor executeQuery(String query) {
+		return database.rawQuery(query, null);
+	}
+	
+	public ABMListResult list(String listColumn, String order, String parentIdField, long parentId) {
+		ABMListResult result = new ABMListResult();
+		String sql = "SELECT _id, " + listColumn + " FROM " + databaseName;
+		if ((parentIdField != null) && !parentIdField.equals("")) {
+			sql += " WHERE " + parentIdField + " = " + parentId;
+		}
+		if ((order != null) && !order.equals("")) {
+			sql += " ORDER BY " + order;
+		}
+		Cursor cursor = database.rawQuery(sql, null);
+		int qtty = cursor.getCount();
+		GenLog.debug(TAG, "Number of rows: " + qtty);
+		while ((qtty > 0) && !cursor.isLast()) {
+			cursor.moveToNext();
+			result.add(cursor.getLong(0), cursor.getString(1));
+		}
+		cursor.close();
+		return result;
+	}
+
+	public ABMListResult table(String listColumn, String order, String parentIdField, long parentId) {
+		ABMListResult result = new ABMListResult();
+		String where = null;
+		if ((parentIdField != null) && !parentIdField.equals("")) {
+			where = parentIdField + " = " + parentId;
+		}
+		String[] allFields = new String[fieldNames.length + 2];
+		allFields[0] = "_id";
+		allFields[1] = listColumn;
+		for (int i = 0; i < fieldNames.length; i++) {
+			allFields[i + 2] = fieldNames[i];
+		}
+		Cursor cursor = database.query(databaseName, allFields, where, null, null, null, order);
+		GregorianCalendar calendar = null;
+		int qtty = cursor.getCount();
+		while ((qtty > 0) && !cursor.isLast()) {
+			cursor.moveToNext();
+			String[] row = new String[fieldNames.length];
+			int i = 0;
+			for (int fieldType : fieldTypes) {
+				switch (fieldType) {
+				case ABMBase.TYPE_STRING:
+				case ABMBase.TYPE_STRING_AUTOCOMPLETE:
+				case ABMBase.TYPE_PASSWORD:
+				case ABMBase.TYPE_MULTIPLE_CHOICE:
+					row[i] = cursor.getString(i + 2);
+					break;
+				case ABMBase.TYPE_DIGITS:
+					// TODO ni idea todavia
+					break;
+				case ABMBase.TYPE_NUMBER:
+					row[i] = Float.toString(cursor.getFloat(i + 2));
+					break;
+				case ABMBase.TYPE_DATE:
+					calendar = new GregorianCalendar();
+					calendar.setTimeInMillis(cursor.getLong(i + 2));
+					row[i] = dateFormat.format(calendar.getTime());
+					break;
+				case ABMBase.TYPE_DATE_TIME:
+					calendar = new GregorianCalendar();
+					calendar.setTimeInMillis(cursor.getLong(i + 2));
+					row[i] = dateTimeFormat.format(calendar.getTime());
+					break;
+				case ABMBase.TYPE_INTEGER:
+				case ABMBase.TYPE_BOOLEAN:
+				case ABMBase.TYPE_ID_CHOICE:
+					row[i] = Long.toString(cursor.getLong(i + 2));
+				}
+				i++;
+			}
+			result.add(cursor.getLong(0), cursor.getString(1), row);
+		}
+		cursor.close();
+		return result;
+	}
+
+}

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout android:layout_width="320px" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<EditText android:id="@+id/enter_number_add_text" android:layout_width="160px"
+		android:layout_height="55px" android:textSize="18sp"
+		android:layout_x="5px" android:layout_y="10px"
+		android:enabled="false">
+	</EditText>
+	<Button android:id="@+id/enter_number_add_button_20" android:layout_width="110px"
+		android:layout_height="55px" android:text="M: 1234.56"
+		android:layout_x="165px" android:layout_y="10px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_7" android:layout_width="55px"
+		android:layout_height="55px" android:text="7"
+		android:layout_x="0px" android:layout_y="65px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_8" android:layout_width="55px"
+		android:layout_height="55px" android:text="8"
+		android:layout_x="55px" android:layout_y="65px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_9" android:layout_width="55px"
+		android:layout_height="55px" android:text="9"
+		android:layout_x="110px" android:layout_y="65px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_14" android:layout_width="55px"
+		android:layout_height="55px" android:text="/"
+		android:layout_x="165px" android:layout_y="65px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_18" android:layout_width="55px"
+		android:layout_height="55px" android:text="M+"
+		android:layout_x="220px" android:layout_y="65px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_4" android:layout_width="55px"
+		android:layout_height="55px" android:text="4"
+		android:layout_x="0px" android:layout_y="120px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_5" android:layout_width="55px"
+		android:layout_height="55px" android:text="5"
+		android:layout_x="55px" android:layout_y="120px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_6" android:layout_width="55px"
+		android:layout_height="55px" android:text="6"
+		android:layout_x="110px" android:layout_y="120px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_12" android:layout_width="55px"
+		android:layout_height="55px" android:text="x"
+		android:layout_x="165px" android:layout_y="120px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_16" android:layout_width="55px"
+		android:layout_height="55px" android:text="M-"
+		android:layout_x="220px" android:layout_y="120px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_1" android:layout_width="55px"
+		android:layout_height="55px" android:text="1"
+		android:layout_x="0px" android:layout_y="175px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_2" android:layout_width="55px"
+		android:layout_height="55px" android:text="2"
+		android:layout_x="55px" android:layout_y="175px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_3" android:layout_width="55px"
+		android:layout_height="55px" android:text="3"
+		android:layout_x="110px" android:layout_y="175px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_13" android:layout_width="55px"
+		android:layout_height="55px" android:text="-"
+		android:layout_x="165px" android:layout_y="175px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_17" android:layout_width="55px"
+		android:layout_height="55px" android:text="MC"
+		android:layout_x="220px" android:layout_y="175px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_10" android:layout_width="55px"
+		android:layout_height="55px" android:text="."
+		android:layout_x="0px" android:layout_y="230px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_0" android:layout_width="55px"
+		android:layout_height="55px" android:text="0"
+		android:layout_x="55px" android:layout_y="230px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_11" android:layout_width="55px"
+		android:layout_height="55px" android:text="@string/titleClear"
+		android:layout_x="110px" android:layout_y="230px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_15" android:layout_width="55px"
+		android:layout_height="55px" android:text="+"
+		android:layout_x="165px" android:layout_y="230px">
+	</Button>
+	<Button android:id="@+id/enter_number_add_button_19" android:layout_width="55px"
+		android:layout_height="55px" android:text="="
+		android:layout_x="220px" android:layout_y="230px">
+	</Button>
+</AbsoluteLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2007 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <string name="abm_view">Ver</string>
+    <string name="abm_delete">Borrar</string>
+    <string name="abm_insert">Nuevo</string>
+    <string name="abm_save">Grabar</string>
+    <string name="abm_discard">Cancelar</string>
+    <string name="abm_edit">Editar</string>
+    <string name="abm_duplicate">Duplicar</string>
+    <string name="abm_yes">Si</string>
+    <string name="abm_no">No</string>
+    <string name="abm_ok">Aceptar</string>
+    <string name="abm_del_msg">Borrar este elemento?</string>
+    <string name="abm_datepicker_title">Elegir fecha</string>
+    <string name="abm_timepicker_title">Elegir hora</string>
+    <string name="abm_singlelist_title">Elegir Opcion</string>
+    <string name="abm_multiplelist_title">Elegir Opciones</string>
+    <string name="abm_sublist_invalid_value">Valor Invalido</string>
+    <string name="abm_multiple_empty">Sin selección</string>
+    <string name="abm_empty_list_message">Lista vacía. Seleccione «Nuevo» para crear un elemento</string>
+    <string name="abm_export">Exportar datos</string>
+    <string name="abm_import">Importar datos</string>
+    <string name="abm_export_progress">Los datos están siendo exportados</string>
+    <string name="abm_import_progress">Los datos están siendo importados</string>
+    <string name="abm_export_done">Los datos fueron exportados</string>
+    <string name="abm_import_done">Los datos fueron importados</string>
+    <string name="abm_export_ask">Desea exportar los datos a Dropbox?</string>
+    <string name="abm_import_ask">Desea importar los datos desde Dropbox?</string>
+</resources>

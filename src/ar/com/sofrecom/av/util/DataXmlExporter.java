@@ -1,0 +1,200 @@
+package ar.com.sofrecom.av.util;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.dropbox.client2.DropboxAPI;
+import com.dropbox.client2.android.AndroidAuthSession;
+import com.dropbox.client2.exception.DropboxException;
+
+/**
+ * Android DataExporter that allows the passed in SQLiteDatabase to be exported
+ * to external storage (SD card) in an XML format.
+ * 
+ * To backup a SQLite database you need only copy the database file itself (on
+ * Android /data/data/APP_PACKAGE/databases/DB_NAME.db) -- you *don't* need this
+ * export to XML step.
+ * 
+ * XML export is useful so that the data can be more easily transformed into
+ * other formats and imported/exported with other tools (not for backup per se).
+ * 
+ * The kernel of inspiration for this came from:
+ * http://mgmblog.com/2009/02/06/export
+ * -an-android-sqlite-db-to-an-xml-file-on-the-sd-card/. (Though I have made
+ * many changes/updates here, I did initially start from that article.)
+ * 
+ * @author ccollins
+ * 
+ */
+public class DataXmlExporter {
+
+	private static final String TAG = "DataXmlExporter";
+	
+	private SQLiteDatabase db;
+	private String dbName;
+// Used when files are exported to file system
+//	private String directory;
+	private XmlBuilder xmlBuilder;
+	private DropboxAPI<AndroidAuthSession> dbApi;
+	
+// Used when files are exported to file system
+//	public DataXmlExporter(SQLiteDatabase db, String dbName, String directory) {
+//		this.db = db;
+//		this.dbName = dbName;
+//		this.directory = directory;
+//	}
+
+	public DataXmlExporter(SQLiteDatabase db, String dbName, DropboxAPI<AndroidAuthSession> dbApi) {
+		this.db = db;
+		this.dbName = dbName;
+		this.dbApi = dbApi;
+	}
+
+	public int exportData() throws GenericException {
+		GenLog.debug(TAG, "exporting database - " + dbName);
+		int qtty = 0;
+		try {
+			this.xmlBuilder = new XmlBuilder();
+			this.xmlBuilder.start(dbName);
+	
+			// get the tables
+			String sql = "select * from sqlite_master";
+			Cursor c = this.db.rawQuery(sql, new String[0]);
+			GenLog.debug(TAG, "select * from sqlite_master, cur size " + c.getCount());
+			if (c.moveToFirst()) {
+				do {
+					String tableName = c.getString(c.getColumnIndex("name"));
+					GenLog.debug(TAG, "table name " + tableName);
+	
+					// skip metadata, sequence, and uidx (unique indexes)
+					if (!tableName.equals("android_metadata")
+							&& !tableName.equals("sqlite_sequence")
+							&& !tableName.startsWith("uidx")) {
+						qtty = this.exportTable(tableName);
+					}
+				} while (c.moveToNext());
+			}
+			String xmlString = this.xmlBuilder.end();
+			this.writeToDropbox(xmlString);
+			GenLog.debug(TAG, "exporting database complete");
+		} catch (IOException e) {
+			throw new GenericException(e);
+		} catch (DropboxException e) {
+			throw new GenericException(e);
+		}
+		return qtty;
+	}
+
+	private int exportTable(final String tableName) {
+		GenLog.debug(TAG, "exporting table - " + tableName);
+		int qtty = 0;
+		this.xmlBuilder.openTable(tableName);
+		String sql = "select * from " + tableName + " order by _id";
+		Cursor c = this.db.rawQuery(sql, new String[0]);
+		if (c.moveToFirst()) {
+			int cols = c.getColumnCount();
+			do {
+				this.xmlBuilder.openRow();
+				for (int i = 0; i < cols; i++) {
+					this.xmlBuilder.addColumn(c.getColumnName(i), c
+							.getString(i));
+				}
+				this.xmlBuilder.closeRow();
+				qtty++;
+			} while (c.moveToNext());
+		}
+		c.close();
+		this.xmlBuilder.closeTable();
+		return qtty;
+	}
+
+	private void writeToDropbox(String xmlString) throws DropboxException {
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(xmlString.getBytes());
+		//Main.dbApi.putFile(file, inputStream, fileContents.length(), null, null);
+		dbApi.putFileOverwrite("/" + dbName + ".xml", inputStream, xmlString.length(), null);
+	}
+
+// Used when files are exported to file system
+//	private void writeToFile(String xmlString) throws IOException {
+//		File dir = new File(directory);
+//		if (!dir.exists()) {
+//			dir.mkdirs();
+//		}
+//		File file = new File(dir, dbName + ".xml");
+//		file.createNewFile();
+//
+//		ByteBuffer buff = ByteBuffer.wrap(xmlString.getBytes());
+//		FileChannel channel = new FileOutputStream(file).getChannel();
+//		try {
+//			channel.write(buff);
+//		} finally {
+//			if (channel != null)
+//				channel.close();
+//		}
+//	}
+
+	/**
+	 * XmlBuilder is used to write XML tags (open and close, and a few
+	 * attributes) to a StringBuilder. Here we have nothing to do with IO or
+	 * SQL, just a fancy StringBuilder.
+	 * 
+	 * @author ccollins
+	 * 
+	 */
+	class XmlBuilder {
+		private static final String OPEN_XML_STANZA = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+		private static final String CLOSE_WITH_TICK = "'>";
+		private static final String DB_OPEN = "<database name='";
+		private static final String DB_CLOSE = "</database>\n";
+		private static final String TABLE_OPEN = "<table name='";
+		private static final String TABLE_CLOSE = "</table>";
+		private static final String ROW_OPEN = "<row>";
+		private static final String ROW_CLOSE = "</row>\n";
+		private static final String COL_OPEN = "<col name='";
+		private static final String COL_CLOSE = "</col>";
+
+		private final StringBuilder sb;
+
+		public XmlBuilder() throws IOException {
+			this.sb = new StringBuilder();
+		}
+
+		void start(String dbName) {
+			this.sb.append(OPEN_XML_STANZA);
+			this.sb.append(DB_OPEN + dbName + CLOSE_WITH_TICK);
+		}
+
+		String end() throws IOException {
+			this.sb.append(DB_CLOSE);
+			return this.sb.toString();
+		}
+
+		void openTable(String tableName) {
+			this.sb.append(TABLE_OPEN + tableName + CLOSE_WITH_TICK);
+		}
+
+		void closeTable() {
+			this.sb.append(TABLE_CLOSE);
+		}
+
+		void openRow() {
+			this.sb.append(ROW_OPEN);
+		}
+
+		void closeRow() {
+			this.sb.append(ROW_CLOSE);
+		}
+
+		void addColumn(final String name, final String val) {
+			this.sb.append(COL_OPEN + name + CLOSE_WITH_TICK + replaceSpecChars(val) + COL_CLOSE);
+		}
+		
+		String replaceSpecChars(String val) {
+			String result = val.replaceAll("\"", "\"\"");
+			return result;
+		}
+	}
+}

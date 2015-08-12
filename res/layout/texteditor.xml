@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/control"  
+  	android:orientation="vertical"
+  	android:layout_width="fill_parent"
+  	android:layout_height="fill_parent">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+
+	<ScrollView android:id="@+id/boxScroll" android:layout_height="fill_parent" android:layout_width="fill_parent">
+		<ar.com.sofrecom.app.gastos.GastosEditText android:id="@+id/box"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:inputType="textMultiLine"
+		android:layout_marginTop="4dip"
+		android:layout_marginBottom="4dip"
+		android:gravity="left|top"
+		android:scrollbars="vertical"
+		android:text=""/>
+	</ScrollView>
+
+</LinearLayout>
+
+</RelativeLayout>

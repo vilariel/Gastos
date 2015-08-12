@@ -1,0 +1,65 @@
+package ar.com.sofrecom.av.abm;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.sqlite.SQLiteDatabase;
+import ar.com.sofrecom.av.util.DataXmlExporter;
+import ar.com.sofrecom.av.util.GenLog;
+import ar.com.sofrecom.av.util.GenericException;
+
+public abstract class ABMDbsExportActivity extends ABMDbsActivity {
+
+	private static final String TAG = "ExportDbsActivity";
+
+	protected String getFieldName(int fieldNum) {
+		switch (fieldNum) {
+		case STR_ASK:
+			return "abm_export_ask";
+		case STR_YES:
+			return "abm_yes";
+		case STR_NO:
+			return "abm_no";
+		case STR_DONE:
+			return "abm_export_done";
+		case STR_TITLE:
+			return "abm_export";
+		case STR_PROGRESS:
+			return "abm_export_progress";
+		default:
+			return null;
+		}
+	}
+
+	public void processData(ABMBase abmObject) {
+		ABMDatabaseDataMgr abmObjectDbMgr = (ABMDatabaseDataMgr) abmObject;
+    	ScriptHelper commandHelper = new ScriptHelper(abmObjectDbMgr.getDatabaseName(), abmObjectDbMgr.getVersionNumber(), ABMDbsExportActivity.this);
+    	SQLiteDatabase database = commandHelper.getReadableDatabase();
+    	DataXmlExporter exporter = new DataXmlExporter(database, abmObjectDbMgr.getDatabaseName(), directory);
+		try {
+			int qtty = exporter.exportData();
+			result += "\n" + abmObjectDbMgr.getDatabaseName() + ": " + qtty;
+		} catch (GenericException e) {
+			GenLog.err(TAG, e);
+		}
+	}
+
+	protected String getPrefsOri() {
+		String packageName = this.getPackageName();
+		return getDataDir(packageName) + "/shared_prefs/" + packageName + "_preferences.xml";
+		
+	}
+	
+	protected String getPrefsNew() {
+		return directory + "/preferences.xml";
+	}
+
+}

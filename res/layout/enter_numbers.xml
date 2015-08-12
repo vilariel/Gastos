@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout android:layout_width="fill_parent"
+	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+<TextView android:layout_width="fill_parent" android:layout_height="wrap_content" android:textSize="30dip" android:id="@+id/en_btn_fieldname"/>
+<EditText android:id="@+id/en_text" style="@style/enTextStyle" android:layout_height="66dip" android:layout_width="187dip" android:layout_x="5dip" android:layout_y="43dip"></EditText>
+<Button android:text="M: 1234.56" android:layout_height="66dip" android:id="@+id/en_btn_20" android:layout_width="130dip" android:layout_x="192dip" android:layout_y="43dip"/>
+<Button android:text="M+" android:layout_height="66dip" android:id="@+id/en_btn_18" android:layout_width="66dip" android:layout_x="256dip" android:layout_y="107dip"/>
+<Button android:text="/" android:layout_height="66dip" android:id="@+id/en_btn_14" android:layout_width="66dip" android:layout_x="192dip" android:layout_y="107dip"/>
+<Button android:text="9" android:layout_height="66dip" android:id="@+id/en_btn_9" android:layout_width="66dip" android:layout_x="128dip" android:layout_y="107dip"/>
+<Button android:text="8" android:layout_height="66dip" android:id="@+id/en_btn_8" android:layout_width="66dip" android:layout_x="64dip" android:layout_y="107dip"/>
+<Button android:text="7" android:layout_height="66dip" android:id="@+id/en_btn_7" android:layout_width="66dip" android:layout_x="0dip" android:layout_y="107dip"/>
+<Button android:text="4" android:layout_height="66dip" android:id="@+id/en_btn_4" android:layout_width="66dip" android:layout_x="0dip" android:layout_y="171dip"/>
+<Button android:text="1" android:layout_height="66dip" android:id="@+id/en_btn_1" android:layout_width="66dip" android:layout_x="0dip" android:layout_y="235dip"/>
+<Button android:text="2" android:layout_height="66dip" android:id="@+id/en_btn_2" android:layout_width="66dip" android:layout_x="64dip" android:layout_y="235dip"/>
+<Button android:text="5" android:layout_height="66dip" android:id="@+id/en_btn_5" android:layout_width="66dip" android:layout_x="64dip" android:layout_y="171dip"/>
+<Button android:text="6" android:layout_height="66dip" android:id="@+id/en_btn_6" android:layout_width="66dip" android:layout_x="128dip" android:layout_y="171dip"/>
+<Button android:text="3" android:layout_height="66dip" android:id="@+id/en_btn_3" android:layout_width="66dip" android:layout_x="128dip" android:layout_y="235dip"/>
+<Button android:text="x" android:layout_height="66dip" android:id="@+id/en_btn_12" android:layout_width="66dip" android:layout_x="192dip" android:layout_y="171dip"/>
+<Button android:text="-" android:layout_height="66dip" android:id="@+id/en_btn_13" android:layout_width="66dip" android:layout_x="192dip" android:layout_y="235dip"/>
+<Button android:text="M-" android:layout_height="66dip" android:id="@+id/en_btn_16" android:layout_width="66dip" android:layout_x="256dip" android:layout_y="171dip"/>
+<Button android:text="MC" android:layout_height="66dip" android:id="@+id/en_btn_17" android:layout_width="66dip" android:layout_x="256dip" android:layout_y="235dip"/>
+<Button android:text="." android:layout_height="66dip" android:id="@+id/en_btn_10" android:layout_width="66dip" android:layout_x="0dip" android:layout_y="299dip"/>
+<Button android:text="0" android:layout_height="66dip" android:id="@+id/en_btn_0" android:layout_width="66dip" android:layout_x="64dip" android:layout_y="299dip"/>
+<Button android:text="@string/enBtnClear" android:layout_height="66dip" android:id="@+id/en_btn_11" android:layout_width="66dip" android:layout_x="128dip" android:layout_y="299dip"/>
+<Button android:text="+" android:layout_height="66dip" android:id="@+id/en_btn_15" android:layout_width="66dip" android:layout_x="192dip" android:layout_y="299dip"/>
+<Button android:text="=" android:layout_height="66dip" android:id="@+id/en_btn_19" android:layout_width="66dip" android:layout_x="256dip" android:layout_y="299dip"/>
+<Button android:text="@string/enBtnOk" android:layout_height="66dip" android:id="@+id/en_btn_21" android:layout_width="66dip" android:layout_x="0dip" android:layout_y="363dip"/>
+<Button android:text="@string/enBtnCancel" android:layout_height="66dip" android:id="@+id/en_btn_22" android:layout_width="66dip" android:layout_x="64dip" android:layout_y="363dip"/>
+<Button android:text="@string/enBtnPrev" android:layout_height="66dip" android:id="@+id/en_btn_23" android:layout_width="66dip" android:layout_x="128dip" android:layout_y="363dip"/>
+<Button android:text="@string/enBtnNext" android:layout_height="66dip" android:id="@+id/en_btn_24" android:layout_width="66dip" android:layout_x="192dip" android:layout_y="363dip"/>
+<Button android:text="@string/enBtnSave" android:layout_height="66dip" android:id="@+id/en_btn_25" android:layout_width="66dip" android:layout_x="256dip" android:layout_y="363dip"/>
+</AbsoluteLayout>

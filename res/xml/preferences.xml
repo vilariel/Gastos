@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:key="preference_screen" android:title="@string/prefTitle"
+	android:summary="@string/prefSummary">
+	<EditTextPreference android:title="@string/prefDatadirTitle"
+		android:summary="@string/prefDatadirSummary" android:dialogTitle="@string/prefDatadirTitle"
+		android:key="datadir"></EditTextPreference>
+	<EditTextPreference android:summary="@string/prefCashSummary"
+		android:title="@string/prefCashTitle" android:key="cash"
+		android:dialogTitle="@string/prefCashTitle" android:numeric="decimal|signed"
+            android:defaultValue="0.0"></EditTextPreference>
+	<EditTextPreference android:summary="@string/prefHourSummary"
+		android:title="@string/prefHourTitle" android:key="hour"
+		android:dialogTitle="@string/prefHourTitle" android:numeric="integer" android:defaultValue="0"></EditTextPreference>
+</PreferenceScreen>

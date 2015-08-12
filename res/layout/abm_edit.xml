@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/abmEditLayout"
+	android:orientation="vertical" android:layout_height="wrap_content"
+	android:layout_width="fill_parent">
+	<ScrollView android:layout_marginBottom="50dip" android:id="@+id/abmScrollEdit"
+		android:layout_height="wrap_content" android:layout_width="fill_parent">
+	</ScrollView>
+	<RelativeLayout
+		android:layout_marginTop="-50dip" android:id="@+id/abmButtonsEdit"
+		android:gravity="bottom" android:layout_height="wrap_content"
+		android:layout_width="fill_parent">
+	</RelativeLayout>
+</LinearLayout>

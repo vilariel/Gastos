@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="ar.com.sofrecom.app.gastos"
+      android:versionCode="1" android:versionName="1.1">
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:name=".Main"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    <activity android:name="CategoryABM"></activity>
+<activity android:name="SubCategoryABM"></activity>
+<activity android:name="Preferences"></activity>
+<activity android:name="FieldsABM"></activity>
+<activity android:name="FieldValueABM"></activity>
+<activity android:name="EnterExpenseActivity"></activity>
+<activity android:name="DebtsABM"></activity>
+<activity android:name="LendsABM"></activity>
+
+
+
+
+<activity android:name="DbsExportActivity"></activity>
+<activity android:name="DbsImportActivity"></activity>
+<activity android:name="GastosEditActivity"></activity>
+<activity android:name="ar.com.sofrecom.av.numbers.EnterNumbersActivity"></activity>
+<activity android:name="NumbersABM"></activity>
+<activity android:name="NumberNowActivity"></activity>
+<activity android:name="DropboxAuthenticate"></activity>
+		<activity android:name="com.dropbox.client2.android.AuthActivity"
+			android:launchMode="singleTask" android:configChanges="orientation|keyboard">
+			<intent-filter>
+				<!-- Change this to be db- followed by your app key -->
+				<data android:scheme="db-r61t9vlxqdi5oen" />
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity android:name="AutoKmABM"></activity>
+</application>
+    <uses-sdk android:minSdkVersion="5" />
+
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+</manifest> 

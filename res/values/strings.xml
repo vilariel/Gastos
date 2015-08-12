@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, Main!</string>
+	<string name="app_name">Gastos</string>
+	<string name="preferences">Preferencias</string>
+	<string name="editFile">Editar Gastos</string>
+	<string name="titleCategory">Categoría</string>
+	<string name="prefDatadirSummary">Directorio donde se guarda el archivo CSV de Gastos</string>
+	<string name="prefDatadirTitle">Directorio de datos</string>
+	<string name="prefDebugSummary">Escribe un archivo en memoria externa (requiere reiniciar)</string>
+	<string name="prefDebugTitle">Debug</string>
+	<string name="prefCashSummary">Cantidad de dinero en efectivo</string>
+	<string name="prefCashTitle">Efectivo actual</string>
+	<string name="prefHourSummary">Hora a la que comienza el día</string>
+	<string name="prefHourTitle">Hora comienzo día</string>
+	<string name="prefSummary">Preferencias de la aplicación</string>
+	<string name="prefTitle">Preferencias</string>
+	<string name="titleName">Nombre</string>
+	<string name="titleSummary">Aclaración (opcional)</string>
+	<string name="titleDate">Fecha</string>
+	<string name="titleRealPrice">Precio Real</string>
+	<string name="titleTicketPrice">Precio Ticket</string>
+	<string name="titleDiscount">Descuento (%)</string>
+	<string name="titlePlace">Lugar</string>
+	<string name="titlePayMethod">Método de Pago</string>
+	<string name="titleField1">Campo 1</string>
+	<string name="titleField2">Campo 2</string>
+	<string name="titleField3">Campo 3</string>
+	<string name="titleField4">Campo 4</string>
+	<string name="titleField5">Campo 5</string>
+	<string name="titleField6">Campo 6</string>
+	<string name="titleScript">Script</string>
+	<string name="titleFieldsManager">Listas</string>
+	<string name="titleValue">Valor</string>
+	<string name="titleEnterNumber">Ingrese número</string>
+	<string name="titleNumbers">Números</string>
+	<string name="titleDebts">Deudas</string>
+	<string name="titleLends">Prestados</string>
+	<string name="titleAmout">Monto</string>
+	<string name="titleDescription">Descripción</string>
+	<string name="titleDebtDate">Fecha Deuda</string>
+	<string name="titlePaid">Saldado</string>
+	<string name="titlePaidDate">Fecha Saldado</string>
+	<string name="editConfirmSaveOnExit">El contenido ha cambiado. Grabar antes de salir?</string>
+	<string name="editMenuWordwrap">Word Wrap</string>
+	<string name="editMenuSizeUp">Tamaño +</string>
+	<string name="editMenuSizeDw">Tamaño -</string>
+	<string name="editMenuSaveExit">Grabar y Salir</string>
+	<string name="editMenuSave">Grabar</string>
+	<string name="titleList">Lista</string>
+	
+	<string name="titleNext">Sig.</string>
+	<string name="titlePrev">Ant.</string>
+	<string name="titleMore">Más</string>
+	<string name="titleClear">Clear</string>
+	<string name="titleSave">Save</string>
+	<string name="titleCar">Auto</string>
+	<string name="titleKm">KM</string>
+	<string name="titleAction">Accion</string>
+	<string name="titleGasComp">Nafta-lleno</string>
+	<string name="titleGas">Nafta</string>
+	<string name="titleLts">Litros</string>
+	<string name="titleLeave">Dejar</string>
+	<string name="titleTake">Tomar</string>
+	
+</resources>
